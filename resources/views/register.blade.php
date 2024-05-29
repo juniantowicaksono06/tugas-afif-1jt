@@ -14,11 +14,15 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="css/adminlte.min.css">
   <link rel="stylesheet" href="css/global.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="plugins/jquery/jquery.min.js"></script>
 </head>
 <body class="hold-transition login-page">
 @include('components/loading')
-<div class="login-box">
-  <div class="login-logo">
+@include('components/imagecropper')
+<div class="register-box">
+  <div class="register-logo">
     <a href="/register"><b>Sistem Presensi</b></a>
   </div>
   <!-- /.login-logo -->
@@ -47,7 +51,7 @@
           <input type="text" class="form-control" placeholder="Jabatan" name="position" id="registerJabatan">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-user"></span>
+              <span class="fas fa-briefcase"></span>
             </div>
           </div>
         </div>
@@ -55,7 +59,7 @@
           <input type="password" class="form-control" placeholder="Password" name="password" id="registerPassword">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-eye"></span>
+              <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>
@@ -63,8 +67,21 @@
           <input type="password" class="form-control" placeholder="Konfirmasi Password" name="confirmedPassword" id="registerConfirmedPassword">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-eye"></span>
+              <span class="fas fa-key"></span>
             </div>
+          </div>
+        </div>
+        <div class="row mt-3 mb-3 px-2">
+          <div class="input-group position-relative">
+            <div class="photo-upload-overlay">
+              <div class="d-flex justify-content-center align-items-center h-100">
+                <div class="text-center">
+                  <span class="text-center"><i class="fa fa-camera fa-4x"></i></span>
+                  <p class="text-center mb-0">Silahkan upload atau drag gambar ke sini</p>
+                </div>
+              </div>
+            </div>
+            <input type="file" class="form-control photo-upload" name="profilePicture" id="registerPhoto">
           </div>
         </div>
         <div class="row">
@@ -84,23 +101,35 @@
 </div>
 <!-- /.login-box -->
 
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="js/adminlte.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 @include('components/javascript')
 <script>
   $(window).on("load", function() {
+      $("#registerPhoto").on('change', (event) => {
+        const currentFiles = event.target.files
+          if(currentFiles && currentFiles.length > 0) {
+              const reader = new FileReader()
+              reader.onload = (e) => {
+                // loadCrop(e.target.result)
+                showModal(e.target.result)
+              }
+              reader.readAsDataURL(currentFiles[0])
+          }
+      })
       $("#btnRegister").on('click', async function(e) {
-          e.preventDefault()
+          e.preventDefault();
+          // console.log(getCroppedImageBlob())
+          let imageBlob = getCroppedImageBlob()
           let email = $("#registerEmail").val()
           let fullname = $("#registerFullname").val()
           let position = $("#registerJabatan").val()
           let password = $("#registerPassword").val()
           let confirmedPasswrd = $("#registerConfirmedPassword").val()
-          if(email == "" || fullname == "" || position == "" || password == "" || confirmedPasswrd == "") return
+          if(email == "" || fullname == "" || position == "" || password == "" || confirmedPasswrd == "" || imageBlob == null) return
           $("#LoadingSpinner").addClass("show")
           let formData = new FormData()
           formData.append("email", email)
@@ -108,6 +137,7 @@
           formData.append("position", position)
           formData.append("password", password)
           formData.append("password_confirmation", confirmedPasswrd)
+          formData.append("picture", imageBlob, 'image.webp')
           let response = await makeRequestToServer("/api/auth/register", "POST", false, formData)
           $("#LoadingSpinner").removeClass("show")
           if(response != null) {

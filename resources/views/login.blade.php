@@ -39,7 +39,7 @@
           <input type="password" class="form-control" name="password" placeholder="Password" id="loginPassword">
           <div class="input-group-append">
             <div class="input-group-text">
-              <span class="fas fa-eye"></span>
+              <span class="fas fa-lock"></span>
             </div>
           </div>
         </div>

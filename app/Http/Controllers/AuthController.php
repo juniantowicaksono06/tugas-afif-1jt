@@ -136,6 +136,7 @@ class AuthController extends Controller {
                 'fullname'  => 'required|max:200',
                 'position'  => 'required|max:200',
                 'password'  => 'required|min:8|confirmed',
+                'picture'   => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]); 
             if($validator->fails()) {
                 return response()->
@@ -144,6 +145,9 @@ class AuthController extends Controller {
                     'message'   => $validator->errors()
                 ], 400);
             }
+            $imageName = time().'.'.$request->picture->extension();
+            $request->picture->move(public_path('images'), $imageName);
+            $fullPath = "images/" . $imageName;
 
             $input = $validator->validated();
             $user = MasterUser::where('email', $input['email'])->first();
@@ -160,7 +164,7 @@ class AuthController extends Controller {
                 'fullname'      => $input['fullname'],
                 'position'      => $input['position'],
                 'password'      => Hash::make($input['password']),
-                'picture'       => ""
+                'picture'       => $fullPath
             ]);
             return response()->json([
                 'status'=> 200,
