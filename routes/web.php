@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +15,12 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware(['auth_web.jwt'])->group(function() {
-    Route::get('/', function () {
-        return view('welcome');
+    // Route::get('/', function () {
+    //     return view('welcome');
+    // });
+    // Route::get('/', 'HomeController@home');
+    Route::controller(HomeController::class)->group(function() {
+        Route::get('/', 'home');
     });
 });
 Route::controller(AuthController::class)->group(function() {
