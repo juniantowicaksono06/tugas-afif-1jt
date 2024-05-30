@@ -1,4 +1,20 @@
 <!-- Main Sidebar Container -->
+<?php 
+  $currentParentActiveID = "";
+  foreach($menus as $menu) {
+    if(request()->path() === $menu->link) {
+      $currentParentActiveID = $menu->menuID;
+      break;
+    }
+    if($menu->hasChild && $menu->isParent) {
+      foreach($subMenus[$menu->menuID] as $subMenu) {
+        if($subMenu['link'] === '/'.request()->path()) {
+          $currentParentActiveID = $subMenu['parentID'];
+        }
+      }
+    }
+  }
+?>
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -33,8 +49,8 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           @foreach($menus as $menu)
-            <li class="nav-item">
-              <a href="<?= $menu->link ?>" class="nav-link <?= strpos("/".request()->path(), $menu->link) === 0 ? 'active' : '' ?>">
+            <li class="nav-item <?= $currentParentActiveID == $menu->menuID && $menu->hasChild && $menu->isParent ? 'menu-open' : '' ?>">
+              <a href="<?= $menu->link ?>" class="nav-link <?= $currentParentActiveID === $menu->menuID ? 'active' : '' ?>">
                 <i class="nav-icon <?= $menu->icon ?>"></i>
                 <p><?= $menu->name ?>
                   @if($menu->hasChild == 1 && $menu->isParent == 1)
@@ -46,7 +62,7 @@
                 <ul class="nav nav-treeview">
                   @foreach($subMenus[$menu->menuID] as $subMenu)
                     <li class="nav-item">
-                      <a href="<?= $subMenu['link'] ?>" class="nav-link">
+                      <a href="<?= $subMenu['link'] ?>" class="nav-link <?= strpos("/".request()->path(), $subMenu['link']) === 0 ? 'active' : '' ?>">
                         <i class="far fa-circle nav-icon"></i>
                         <p><?= $subMenu['name'] ?></p>
                       </a>

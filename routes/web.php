@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PresensiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,6 +23,10 @@ Route::middleware(['auth_web.jwt'])->group(function() {
     Route::controller(HomeController::class)->group(function() {
         Route::get('/', 'home');
     });
+    Route::controller(PresensiController::class)->group(function() {
+        Route::get('/presensi/check-in', 'presensi');
+        Route::get('/presensi/riwayat', 'riwayat');
+    }); 
 });
 Route::controller(AuthController::class)->group(function() {
     Route::middleware(['auth_web.jwt'])->group(function() {
