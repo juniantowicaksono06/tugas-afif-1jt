@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -31,6 +32,12 @@ Route::controller(AuthController::class)->group(function() {
 Route::controller(AttendanceController::class)->group(function() {
     Route::middleware(['auth_api.jwt'])->group(function() {
         Route::post('/presensi', 'actionPresensi');
+    });
+});
+
+Route::controller(UserProfileController::class)->group(function() {
+    Route::middleware(['auth_api.jwt'])->group(function() {
+        Route::post('/edit-profile/{id}', 'actionEdit');
     });
 });
 

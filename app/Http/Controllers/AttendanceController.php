@@ -14,11 +14,54 @@ class AttendanceController extends Controller {
         ]);
     } 
     
-    public function riwayat() {
+    public function riwayat(Request $request) {
+        $data = [];
+        $attendance = new Attendance();
+        $limit = 10;
+        $page_offset = 0;
+        $total_data = 0;
+        $total_page = 1;
+        $current_page = 1;
+        if(!empty($request->input("page_offset"))) {
+            if(is_numeric($request->input("page_offset"))) {
+                $page_offset = $request->input("page_offset") <= 0 ? 0 : ($request->input("page_offset") - 1) * $limit;
+            }
+        }
+        if(!empty($request->input("search")) && !empty($request->input("value"))) {
+            $data = $attendance->where($request->input("search"), $request->input('value'))->offset($page_offset)->limit($limit)->get();
+            $total_data = $attendance->where($request->input("search"), $request->input('value'))->count();
+        }
+        else {
+            $data = $attendance->offset($page_offset)->limit($limit)->orderBy('createdAt', 'desc')->get();
+            $total_data = $attendance->count();
+        }
+        if($total_data > $limit) {
+            $total_page = ceil($total_data / $limit);
+        }
+        if($page_offset >= $limit) {
+            $current_page = ($page_offset + $limit) / $limit;
+        }
         return view('presensi.riwayat', [
-            'title' => 'Halaman Riwayat Presensi'
+            'title'         => 'Halaman Riwayat Presensi',
+            'data'          => $data,
+            'totalData'     => $total_data,
+            'totalPage'     => $total_page,
+            'limit'         => $limit,
+            'currentPage'   => $current_page,
         ]);
     } 
+
+    public function detail(Request $request, $id) {
+        $attendance = new Attendance();
+        $data = $attendance->where('attendanceID', $id)->first()->toArray();
+        if(!empty($attendance)) {
+            return view('presensi.detail', [
+                'title'     => "Halaman Detail Riwayat Presensi",
+                'data'      => $data
+            ]);
+        }
+        return redirect('/presensi/riwayat');
+    }
 
     public function actionPresensi(Request $request) {
         $fullPath = null;

@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,7 @@ Route::middleware(['auth_web.jwt'])->group(function() {
     Route::controller(AttendanceController::class)->group(function() {
         Route::get('/presensi/check-in', 'presensi');
         Route::get('/presensi/riwayat', 'riwayat');
+        Route::get('/presensi/detail/{id}', 'detail');
     }); 
 });
 Route::controller(AuthController::class)->group(function() {
@@ -34,5 +36,11 @@ Route::controller(AuthController::class)->group(function() {
         Route::get('/register', 'register');
     });
     Route::get('/logout', 'actionWebLogout');
+});
+
+Route::controller(UserProfileController::class)->group(function() {
+    Route::middleware(['auth_web.jwt'])->group(function() {
+        Route::get('/edit-profil', 'editProfil');
+    });
 });
 

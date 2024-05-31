@@ -25,27 +25,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <?php 
-            $request = request();
-            $scheme = $request->getScheme();
-            $host = $request->getHost();
-            $port = $request->getPort();
-            $currentHost = "";
-            if (($scheme == 'http' && $port == 80) || ($scheme == 'https' && $port == 443)) {
-              $currentHost = "{$scheme}://{$host}";
-            }
-            else {
-              $currentHost = "{$scheme}://{$host}:{$port}";
-            }
-          ?>
-          <img src="<?= $currentHost . '/' . $userProfile['picture'] ?>" alt="profile-picture" class="img-circle elevation-2">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block"><?= $userProfile['fullname'] ?></a>
-        </div>
-      </div>
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           @foreach($menus as $menu)

@@ -22,7 +22,7 @@
   @include('components/sidebarcontent')  
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" id="Dashboard">
+  <div class="content-wrapper" id="RiwayatPresensiContent">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">

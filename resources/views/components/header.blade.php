@@ -26,4 +26,9 @@
   <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
   <link rel="stylesheet" href="/plugins/leaflet/leaflet.css">
   <link rel="stylesheet" href="/css/global.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="/plugins/jquery-ui/jquery-ui.min.js"></script>
 </head>

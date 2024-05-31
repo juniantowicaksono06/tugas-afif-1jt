@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterUser;
-use App\Models\Users;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Cookie;
-use App\Rules\UserTypeRule;
 use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -29,7 +25,7 @@ class AuthController extends Controller {
         return view('register', [
             'title' => 'Halaman Registrasi'
         ]);
-    }  
+    } 
 
     public function makeJwt($user) {
         // Payload untuk JWT
@@ -119,7 +115,7 @@ class AuthController extends Controller {
             ->withCookie($token['access_token_cookie'])
             ->withCookie($token['refresh_token_cookie']);
         }
-        catch (\Exception $e) {
+        catch (\Throwable $e) {
             return response()->json([
                 'status'    => 500,
                 'message'   => 'Server error'
@@ -129,6 +125,7 @@ class AuthController extends Controller {
 
     // API untuk register
     public function actionRegister(Request $request) {
+        $fullPath = null;
         try {
             // Check apakah user yang input ini adalah super admin atau bukan?
             $validator = Validator::make($request->all(), [
@@ -171,7 +168,12 @@ class AuthController extends Controller {
                 'message'=> 'User berhasil dibuat'
             ], 200);
             
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            if($fullPath !== null) {
+                if(file_exists(public_path($fullPath))) {
+                    unlink(public_path($fullPath));
+                }
+            }
             return response()->json([
                 'status'=> 500,
                 'message'=> $e->getMessage()
