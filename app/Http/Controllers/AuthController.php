@@ -103,7 +103,7 @@ class AuthController extends Controller {
                 return response()->json([
                     'status'    => 401,
                     'message'   => "Email atau password salah"
-                ], 401);
+                ], 200);
             }
 
             $token = $this->makeJwt($user);

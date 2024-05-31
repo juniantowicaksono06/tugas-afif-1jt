@@ -143,16 +143,30 @@
           if(response != null) {
             if(response.status == 200) {
               let result = await response.json()
-              Swal.fire({
-                toast: true,
-                icon: 'success',
-                title: result['message'],
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                didClose: function() {
-                }
-              })
+              if(result['status'] == 200) {
+                Swal.fire({
+                  toast: true,
+                  icon: 'success',
+                  title: result['message'],
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  didClose: function() {
+                  }
+                })
+              }
+              else {
+                Swal.fire({
+                  toast: true,
+                  icon: 'warning',
+                  title: result['message'],
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  didClose: function() {
+                  }
+                })
+              }
             }
           }
       })

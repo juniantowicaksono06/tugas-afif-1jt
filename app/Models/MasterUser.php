@@ -18,5 +18,11 @@ class MasterUser extends Model
     ];
     public $timestamps = false;
     protected $table = 'MasterUser';
+
+    
+    public function children()
+    {
+        return $this->hasMany(Attendance::class, 'userID');
+    }
     
 }

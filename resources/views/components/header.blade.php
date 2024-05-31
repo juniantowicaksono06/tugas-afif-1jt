@@ -1,7 +1,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title><?= isset($title) ? $title : "Pemungutan Suara" ?></title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -24,5 +24,6 @@
   <link rel="stylesheet" href="/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="/plugins/leaflet/leaflet.css">
   <link rel="stylesheet" href="/css/global.css">
 </head>

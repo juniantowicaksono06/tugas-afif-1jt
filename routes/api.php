@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\KlubSepakbolaController;
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\SupporterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +24,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function() {
     Route::post('/auth/login', 'actionLogin');
+    Route::get('/auth/refresh-token', 'actionRefreshToken');
     Route::post('/auth/register', 'actionRegister');
+});
+
+Route::controller(AttendanceController::class)->group(function() {
+    Route::middleware(['auth_api.jwt'])->group(function() {
+        Route::post('/presensi', 'actionPresensi');
+    });
 });
 
 // // Route untuk semua API supporter

@@ -54,7 +54,7 @@
     try {
         let response;
         if(withRefresh) {
-            response = await fetch(`${baseUrl}/api/refresh-token`, {
+            response = await fetch(`${baseUrl}/api/auth/refresh-token`, {
                 method: "GET",
             })
             if(response.ok) {

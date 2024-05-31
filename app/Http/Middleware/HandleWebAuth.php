@@ -36,7 +36,11 @@ class HandleWebAuth {
             // Decrypt to validate the token.
             // If it's cannot be decrypted then it's not valid
             $decryptedToken = Crypt::decryptString($encryptedToken);
-            JWT::decode($decryptedToken, new Key(env("JWT_SECRET"), env("JWT_ALGO")));
+            $credentials = JWT::decode($decryptedToken, new Key(env("JWT_SECRET"), env("JWT_ALGO")));
+            $credentials = (array) $credentials;
+            $request->merge([
+                'credentials'   => $credentials
+            ]);
             return $next($request);
         }
         catch(\Exception $err) {

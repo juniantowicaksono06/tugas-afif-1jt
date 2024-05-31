@@ -36,8 +36,9 @@
 <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/js/adminlte.js"></script>
+<script src="/plugins/leaflet/leaflet.js"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="/js/demo.js"></script> -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/js/pages/dashboard.js"></script>
+<!-- <script src="/js/pages/dashboard.js"></script> -->
 @include('components/javascript')

@@ -15,12 +15,15 @@ return new class extends Migration
         Schema::create('Attendance', function(Blueprint $table) {
             $table->uuid('attendanceID')->default(DB::raw('(UUID())'))->primary();
             $table->char('userID', 36);
-            $table->dateTime('clockedIn');
-            $table->dateTime('clockedOut');
+            $table->dateTime('clockedIn')->nullable();
+            $table->dateTime('clockedOut')->nullable();
             $table->text('activity');
-            $table->char('longitude', 70);
-            $table->char('latitude', 70);
-            $table->string('picture', 255);
+            $table->char('longitudeIn', 70)->nullable();
+            $table->char('latitudeIn', 70)->nullable();
+            $table->char('longitudeOut', 70)->nullable();
+            $table->char('latitudeOut', 70)->nullable();
+            $table->string('pictureIn', 255)->nullable();
+            $table->string('pictureOut', 255)->nullable();
             $table->tinyInteger('condition');
             $table->timestamp('createdAt')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updatedAt')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

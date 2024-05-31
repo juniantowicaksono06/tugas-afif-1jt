@@ -30,7 +30,10 @@ class HandleAPIAuth {
             // If it's cannot be decrypted then it's not valid
             $decryptedToken = Crypt::decryptString($encryptedToken);
             $credentials = JWT::decode($decryptedToken, new Key(env("JWT_SECRET"), env("JWT_ALGO")));
-            $request->user_type = $credentials->user_type;
+            $credentials = (array) $credentials;
+            $request->merge([
+                'credentials'   => $credentials
+            ]);
             return $next($request);
         }
         catch(\Exception $err) {
