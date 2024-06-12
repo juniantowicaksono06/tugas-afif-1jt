@@ -53,32 +53,55 @@
                     <th>Clocked Out</th>
                     <td><?= $data['clockedIn'] ?></td>
                   </tr>
+                  <tr>
+                    <th>Kondisi</th>
+                    @if($data['condition'] == 1)
+                    <td>Sehat</td>
+                    @elseif($data['condition'] == 2)
+                    <td>Kurang Fit</td>
+                    @elseif($data['condition'] == 3)
+                    <td>Sakit</td>
+                    @endif
+                  </tr>
                 </table>
               </div>
               <div class="container-fluid" id="mapsContainer">
                 <div class="row">
-                  <div class="col-md-6 col-12">
-                    <h3>Lokasi Masuk</h3>
-                    <div id="mapMasuk" class="w-100" style="height: 400px;"></div>
-                  </div>
-                  <div class="col-md-6 col-12">
-                    <h3>Lokasi Keluar</h3>
-                    <div id="mapKeluar" class="w-100" style="height: 400px;"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="container-fluid" id="photoContainer">
-                  <div class="row">
+                  @if(!empty($data['clockedOut']))
+                    <div class="col-md-6 col-12">
+                      <h3>Lokasi Masuk</h3>
+                      <div id="mapMasuk" class="w-100" style="height: 400px;"></div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                      <h3>Lokasi Keluar</h3>
+                      <div id="mapKeluar" class="w-100" style="height: 400px;"></div>
+                    </div>
+                  @else
+                    <div class="col-md-6 col-12">
+                      <h3>Lokasi Masuk</h3>
+                      <div id="mapMasuk" class="w-100" style="height: 400px;"></div>
+                    </div>
                     <div class="col-md-6 col-12">
                       <h3>Foto Masuk</h3>
                       <img src="<?= $currentHost . '/'.$data['pictureIn'] ?>" alt="" class="w-100">
                     </div>
-                    <div class="col-md-6 col-12">
-                      <h3>Foto Pulang</h3>
-                      <img src="<?= $currentHost . '/'.$data['pictureOut'] ?>" alt="" class="w-100">
-                    </div>
-                  </div>
+                  @endif
+                </div>
               </div>
+              @if(!empty($data['clockedOut']))
+                <div class="container-fluid" id="photoContainer">
+                    <div class="row">
+                      <div class="col-md-6 col-12">
+                        <h3>Foto Masuk</h3>
+                        <img src="<?= $currentHost . '/'.$data['pictureIn'] ?>" alt="" class="w-100">
+                      </div>
+                      <div class="col-md-6 col-12">
+                        <h3>Foto Pulang</h3>
+                        <img src="<?= $currentHost . '/'.$data['pictureOut'] ?>" alt="" class="w-100">
+                      </div>
+                    </div>
+                </div>
+              @endif
             </div>
           </div>
         </div>
