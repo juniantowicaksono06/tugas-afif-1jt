@@ -8,7 +8,7 @@
     }
     if($menu->hasChild && $menu->isParent) {
       foreach($subMenus[$menu->menuID] as $subMenu) {
-        if($subMenu['link'] === '/'.request()->path()) {
+        if($subMenu['link'] === '/'.request()->path() || (strpos('/' . request()->path(), $subMenu['link']) === 0)) {
           $currentParentActiveID = $subMenu['parentID'];
         }
       }
@@ -41,7 +41,7 @@
                 <ul class="nav nav-treeview">
                   @foreach($subMenus[$menu->menuID] as $subMenu)
                     <li class="nav-item">
-                      <a href="<?= $subMenu['link'] ?>" class="nav-link <?= strpos("/".request()->path(), $subMenu['link']) === 0 ? 'active' : '' ?>">
+                      <a href="<?= $subMenu['link'] ?>" class="nav-link <?= strpos("/" . request()->path(), $subMenu['link']) === 0 ? 'active' : '' ?>">
                         <i class="<?= $subMenu['icon'] ?>"></i>
                         <p><?= $subMenu['name'] ?></p>
                       </a>

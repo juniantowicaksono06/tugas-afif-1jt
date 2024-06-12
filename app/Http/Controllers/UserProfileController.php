@@ -90,7 +90,9 @@ class UserProfileController extends Controller {
             ];
 
             if(array_key_exists('password', $input)) {
-                $data['password'] = Hash::make($input['password']);
+                if(!empty($input['password'])) {
+                    $data['password'] = Hash::make($input['password']);
+                }
             }
             
             if(array_key_exists('picture', $input)) {

@@ -115,7 +115,7 @@
   })
 
   $(".detail-page").on('click', function() {
-    let url = `${window.location.origin}/presensi/detail/${$(this).data('id')}`
+    let url = `${window.location.origin}/presensi/riwayat/detail/${$(this).data('id')}`
     window.location.href = url
   })
 </script>

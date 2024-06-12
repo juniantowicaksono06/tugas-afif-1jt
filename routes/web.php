@@ -27,7 +27,7 @@ Route::middleware(['auth_web.jwt'])->group(function() {
     Route::controller(AttendanceController::class)->group(function() {
         Route::get('/presensi/check-in', 'presensi');
         Route::get('/presensi/riwayat', 'riwayat');
-        Route::get('/presensi/detail/{id}', 'detail');
+        Route::get('/presensi/riwayat/detail/{id}', 'detail');
     }); 
 });
 Route::controller(AuthController::class)->group(function() {
