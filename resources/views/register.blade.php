@@ -129,7 +129,12 @@
           let position = $("#registerJabatan").val()
           let password = $("#registerPassword").val()
           let confirmedPasswrd = $("#registerConfirmedPassword").val()
-          if(email == "" || fullname == "" || position == "" || password == "" || confirmedPasswrd == "" || imageBlob == null) return
+          if(email == "" || fullname == "" || position == "" || password == "" || confirmedPasswrd == "" || imageBlob == null) {
+            Swal.fire({
+              icon: 'warning',
+              title: "Semua input wajib diisi"
+            });
+          }
           $("#LoadingSpinner").addClass("show")
           let formData = new FormData()
           formData.append("email", email)

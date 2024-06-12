@@ -73,7 +73,13 @@
           e.preventDefault()
           let email = $("#loginEmail").val()
           let password = $("#loginPassword").val()
-          if(email == "" || password == "") return
+          if(email == "" || password == "") {
+            Swal.fire({
+              icon: 'warning',
+              title: "Email dan password wajib diisi"
+            });
+            return false
+          }
           $("#LoadingSpinner").addClass("show")
           let formData = new FormData()
           formData.append("email", email)
