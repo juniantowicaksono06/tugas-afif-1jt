@@ -25,12 +25,6 @@ class MasterMenuSeeder01 extends Seeder
                 'link'      => '/',
                 'subMenu'   => []
             ],
-            'Logout'    => [
-                'id'        => Uuid::uuid4()->toString(),
-                'icon'      => 'fa fa-door-open',
-                'link'      => '/logout',
-                'subMenu'   => []
-            ],
             'Presensi'  => [
                 'id'        => Uuid::uuid4()->toString(),
                 'icon'      => 'fa fa-clock',
@@ -47,7 +41,13 @@ class MasterMenuSeeder01 extends Seeder
                         'link'  => '/presensi/riwayat'
                     ]
                 ]
-            ]
+            ],
+            'Logout'    => [
+                'id'        => Uuid::uuid4()->toString(),
+                'icon'      => 'fa fa-door-open',
+                'link'      => '/logout',
+                'subMenu'   => []
+            ],
         ];
         $data = [];
         foreach($listMenu as $menuName => $menu) {
