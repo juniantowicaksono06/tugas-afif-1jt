@@ -42,7 +42,7 @@
                   @foreach($subMenus[$menu->menuID] as $subMenu)
                     <li class="nav-item">
                       <a href="<?= $subMenu['link'] ?>" class="nav-link <?= strpos("/".request()->path(), $subMenu['link']) === 0 ? 'active' : '' ?>">
-                        <i class="far fa-circle nav-icon"></i>
+                        <i class="<?= $subMenu['icon'] ?>"></i>
                         <p><?= $subMenu['name'] ?></p>
                       </a>
                     </li>

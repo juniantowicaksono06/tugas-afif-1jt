@@ -38,10 +38,12 @@ class MasterMenuSeeder01 extends Seeder
                 'subMenu'   => [
                     'Presensi'  => [
                         'id'    => Uuid::uuid4()->toString(),
+                        'icon'  => 'far fa-clock nav-icon',
                         'link'  => '/presensi/check-in'
                     ],
                     'Riwayat Presensi' => [
                         'id'    => Uuid::uuid4()->toString(),
+                        'icon'  => 'far fa-address-book nav-icon',
                         'link'  => '/presensi/riwayat'
                     ]
                 ]
