@@ -66,7 +66,7 @@ class MasterMenuSeeder01 extends Seeder
                         'menuID'    => $subMenu['id'],
                         'name'      => $subMenuName,
                         'link'      => $subMenu['link'],
-                        'icon'      => "",
+                        'icon'      => $subMenu['icon'],
                         'isParent'  => 0,
                         'hasChild'  => 0,
                         'parentID'  => $menu['id']
