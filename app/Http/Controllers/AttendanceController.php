@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
+date_default_timezone_set('Asia/Jakarta');
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Attendance;

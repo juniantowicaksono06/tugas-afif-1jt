@@ -134,6 +134,7 @@
               icon: 'warning',
               title: "Semua input wajib diisi"
             });
+            return
           }
           $("#LoadingSpinner").addClass("show")
           let formData = new FormData()
