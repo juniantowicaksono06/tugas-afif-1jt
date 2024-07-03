@@ -30,6 +30,7 @@
   const canvas = document.getElementById('canvas')
   const recropButton = document.getElementById("recropButton");
   const cropButton = document.getElementById("cropButton");
+  var previewImageUrl = "";
   let imgBlob = null;
   function showModal(imageUrl) {
     image.attr('src', imageUrl)
@@ -48,6 +49,15 @@
   }
   function getCroppedImageBlob() {
     return imgBlob;
+  }
+  function getPreviewImageUrl() {
+    return previewImageUrl
+  }
+  function setCropAspectRatio(value) {
+    cropAspectRatio = value
+  }
+  function setOnModalClose(fn) {
+    onModalClose = fn
   }
   $(document).ready(function() {
     cropperModal.on('shown.bs.modal', function () {
@@ -90,6 +100,8 @@
       canvas.toBlob((blob) => {
         imgBlob = blob
       })
+      previewImageUrl = canvas.toDataURL("image/webp")
+      onModalClose()
       cropperModal.modal('hide')
     })
   });

@@ -83,6 +83,15 @@
             </div>
             <input type="file" class="form-control photo-upload" name="profilePicture" id="registerPhoto">
           </div>
+        </div> 
+        <div class="row mt-3 mb-3 d-none" id="imagePreviewContainer">
+            <div class="col-12 col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="" alt="" class="img-responsive w-100" id="imagePreview" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
           <!-- /.col -->
@@ -108,6 +117,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 @include('components/javascript')
 <script>
+  $(document).on('ready', function() {
+    setOnModalClose(() => {
+      $("#imagePreviewContainer").removeClass('d-none')
+      $("#imagePreview").attr('src', getPreviewImageUrl())
+    })
+      
+  })
   $(window).on("load", function() {
       $("#registerPhoto").on('change', (event) => {
         const currentFiles = event.target.files
@@ -119,63 +135,64 @@
               }
               reader.readAsDataURL(currentFiles[0])
           }
-      })
-      $("#btnRegister").on('click', async function(e) {
-          e.preventDefault();
-          // console.log(getCroppedImageBlob())
-          let imageBlob = getCroppedImageBlob()
-          let email = $("#registerEmail").val()
-          let fullname = $("#registerFullname").val()
-          let position = $("#registerJabatan").val()
-          let password = $("#registerPassword").val()
-          let confirmedPasswrd = $("#registerConfirmedPassword").val()
-          if(email == "" || fullname == "" || position == "" || password == "" || confirmedPasswrd == "" || imageBlob == null) {
-            Swal.fire({
-              icon: 'warning',
-              title: "Semua input wajib diisi"
-            });
-            return
-          }
-          $("#LoadingSpinner").addClass("show")
-          let formData = new FormData()
-          formData.append("email", email)
-          formData.append("fullname", fullname)
-          formData.append("position", position)
-          formData.append("password", password)
-          formData.append("password_confirmation", confirmedPasswrd)
-          formData.append("picture", imageBlob, 'image.webp')
-          let response = await makeRequestToServer("/api/auth/register", "POST", false, formData)
-          $("#LoadingSpinner").removeClass("show")
-          if(response != null) {
-            if(response.status == 200) {
-              let result = await response.json()
-              if(result['status'] == 200) {
-                Swal.fire({
-                  toast: true,
-                  icon: 'success',
-                  title: result['message'],
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  didClose: function() {
-                  }
-                })
-              }
-              else {
-                Swal.fire({
-                  toast: true,
-                  icon: 'warning',
-                  title: result['message'],
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000,
-                  didClose: function() {
-                  }
-                })
-              }
+      });
+      async function register(e) {
+        e.preventDefault();
+        // console.log(getCroppedImageBlob())
+        let imageBlob = getCroppedImageBlob()
+        let email = $("#registerEmail").val()
+        let fullname = $("#registerFullname").val()
+        let position = $("#registerJabatan").val()
+        let password = $("#registerPassword").val()
+        let confirmedPasswrd = $("#registerConfirmedPassword").val()
+        if(email == "" || fullname == "" || position == "" || password == "" || confirmedPasswrd == "" || imageBlob == null) {
+          Swal.fire({
+            icon: 'warning',
+            title: "Semua input wajib diisi"
+          });
+          return
+        }
+        $("#LoadingSpinner").addClass("show")
+        let formData = new FormData()
+        formData.append("email", email)
+        formData.append("fullname", fullname)
+        formData.append("position", position)
+        formData.append("password", password)
+        formData.append("password_confirmation", confirmedPasswrd)
+        formData.append("picture", imageBlob, 'image.webp')
+        let response = await makeRequestToServer("/api/auth/register", "POST", false, formData)
+        $("#LoadingSpinner").removeClass("show")
+        if(response != null) {
+          if(response.status == 200) {
+            let result = await response.json()
+            if(result['status'] == 200) {
+              Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: result['message'],
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                didClose: function() {
+                }
+              })
+            }
+            else {
+              Swal.fire({
+                toast: true,
+                icon: 'warning',
+                title: result['message'],
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                didClose: function() {
+                }
+              })
             }
           }
-      })
+        }
+      }
+      $("#btnRegister").on('click', register)
   })
 </script>
 </body>
